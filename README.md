@@ -5,6 +5,7 @@ Practicing infrastructure as code means applying the same rigor of application c
 ![IaC-diagram](images/IaC-diagram.png)
 ## Best Practices
 ### Layout
+
 ```yaml
 production                # inventory file for production servers
 staging                   # inventory file for staging environment
@@ -91,8 +92,9 @@ Ansible works against multiple managed nodes or “hosts” in your infrastructu
 ## Ansible roles
 Roles let you automatically load related vars, files, tasks, handlers, and other Ansible artifacts based on a known file structure. After you group your content in roles, you can easily reuse them and share them with other users.
 ### Role directory structure
-# playbooks
+
 ```yaml
+# playbooks
 site.yml
 webservers.yml
 fooservers.yml
