@@ -2,7 +2,7 @@
 Infrastructure as code (IaC) is the process of managing and provisioning computer data centers through machine-readable definition files, rather than physical hardware configuration or interactive configuration tools.
 Practicing infrastructure as code means applying the same rigor of application code development to infrastructure provisioning. All configurations should be defined in a declarative way and stored in a source control system such as AWS CodeCommit, the same as application code. Infrastructure provisioning, orchestration, and deployment should also support the use of the infrastructure as code.
 
-![IaC-diagram](images/IaC%20diagram.png)
+![IaC-diagram](images/IaC-diagram.png)
 ## Best Practices
 ### Layout
 ```yaml
