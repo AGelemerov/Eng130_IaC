@@ -9,4 +9,4 @@ sudo apt-get install tree
 cd /etc/ansible
 sudo ansible all -m ping
 
-sudo cp -f host/hosts /etc/ansible/
+sudo cp -f /home/vagrant/host/hosts /etc/ansible/
