@@ -20,6 +20,8 @@
        
        controller.vm.provision "shell", path: "provision.sh"
        controller.vm.synced_folder "./host", "/home/vagrant/host"
+       controller.vm.synced_folder "./app", "/home/vagrant/app"
+       controller.vm.synced_folder "./environment", "/home/vagrant/environment"
        
        # config.hostsupdater.aliases = ["development.controller"] 
        

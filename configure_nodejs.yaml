@@ -1,0 +1,45 @@
+---
+
+- hosts: web
+  gather_facts: yes
+  become: true
+  tasks:
+  - name: "Add nodejs apt key"
+    apt_key:
+      url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+      state: present
+
+  - name: "Add nodejs 12.x ppa for apt repo"
+    apt_repository:
+      repo: deb https://deb.nodesource.com/node_12.x bionic main
+      update_cache: yes
+
+  - name: Install/configure nodejs
+    apt: pkg=nodejs state=present update_cache=yes
+
+  - name: Install pm2
+    npm:
+      name: pm2
+      global: yes
+
+  - name: Copy web app into web virtual machine
+    synchronize:
+      src: /home/vagrant/app
+      dest: /home/vagrant
+
+  - name: Copy web environment into web virtual machine
+    synchronize:
+      src: /home/vagrant/environment
+      dest: /home/vagrant
+
+  - name: Run npm
+    shell: |
+      cd app
+      npm install
+      node seeds/seed.js
+      pm2 kill
+      pm2 start app.js
+    environment:
+# This is where you enter the environment variable to tell the app wher$      DB_HOST: mongodb://192.168.33.11:27017/posts?authSource=admin
+      DB_HOST=mongodb://192.168.33.11:27017/posts
+    become_user: root
