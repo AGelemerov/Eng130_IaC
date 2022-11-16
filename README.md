@@ -75,3 +75,29 @@ roles/
     monitoring/           # ""
     fooapp/               # ""
 ```
+
+## YAML
+YAML is a human-friendly data serialization language for all programming languages.
+It is used to create configuration files in many laguanges.
+We use it for the creation of playbooks for the Ansible controller to interact with other virtual environments.
+```yaml
+    # Yaml file start ---
+    ---
+    # create a script to configure nginx in our web server
+
+    # who is the host - means name of the server
+    - hosts: web
+
+    # gather data
+    gather_facts: yes
+
+    # we need admin access
+    become: true
+
+    # add the actual instructions
+    tasks:
+    - name: Install/configure Nginx Web server in web-VM
+        apt: pkg=nginx state=present
+    #can be absent as well
+    # we need to ensure at the end of this script the status of nginx is running
+```
