@@ -41,5 +41,8 @@
       pm2 start app.js
     environment:
 # This is where you enter the environment variable to tell the app wher$      DB_HOST: mongodb://192.168.33.11:27017/posts?authSource=admin
-      DB_HOST=mongodb://192.168.33.11:27017/posts
+      DB_HOST: mongodb://192.168.33.11:27017/posts?source=admin
     become_user: root
+  - name: Download mongoose
+    shell: |
+      npm install mongoose -y

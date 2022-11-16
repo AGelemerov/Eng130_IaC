@@ -76,6 +76,10 @@ roles/
     fooapp/               # ""
 ```
 
+## Adhoc commands in Ansible
+
+- Run an update on web node from controller node
+  - `sudo ansible web -a "sudo apt update -y" 
 ## YAML
 YAML is a human-friendly data serialization language for all programming languages.
 It is used to create configuration files in many laguanges.
