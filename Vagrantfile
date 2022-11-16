@@ -22,6 +22,7 @@
        controller.vm.synced_folder "./host", "/home/vagrant/host"
        controller.vm.synced_folder "./app", "/home/vagrant/app"
        controller.vm.synced_folder "./environment", "/home/vagrant/environment"
+       controller.vm.synced_folder "./playbooks", "/home/vagrant/etc/ansible/playbooks"
        
        # config.hostsupdater.aliases = ["development.controller"] 
        

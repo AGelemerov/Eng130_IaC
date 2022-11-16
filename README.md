@@ -79,7 +79,9 @@ roles/
 ## Adhoc commands in Ansible
 
 - Run an update on web node from controller node
-  - `sudo ansible web -a "sudo apt update -y" 
+  - `sudo ansible web -a "sudo apt update -y" `
+- Ping nodes
+  - ` sudo ansible all -m ping`
 ## YAML
 YAML is a human-friendly data serialization language for all programming languages.
 It is used to create configuration files in many laguanges.
@@ -105,3 +107,24 @@ We use it for the creation of playbooks for the Ansible controller to interact w
     #can be absent as well
     # we need to ensure at the end of this script the status of nginx is running
 ```
+
+## Hybrid
+
+1. 
+### Set up dependencies for controller
+`sudo apt install python3`
+`sudo apt install python3-pip`
+`pip3 install awscli`
+`pip3 install boto boto3`
+`sudo apt upgrade -y`
+`alias python=python3`
+
+### Set up Ansible vault
+`cd /etc/ansible`
+`cd`
+`/group_vars/all/pass.yaml` - mkdir is needed
+when in this vi editor, enter:
+`aws_access_key: my_key`
+`aws_secret_key: my_key`
+cd to /etc/ansible
+`sudo ansible-playbook ec2.yaml --ask-pass --tags create-ec2`
