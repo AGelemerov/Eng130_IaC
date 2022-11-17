@@ -97,14 +97,3 @@ resource "aws_instance" "eng130-angel-terraform-app" {
     Name = "eng130-angel-terraform-app"
   }
 }
-# What type of server with what sort of functionality
-
-# Add resource
-
-# AMI
-
-# Instance type
-
-# Do we need public IP or not
-
-# Name the server

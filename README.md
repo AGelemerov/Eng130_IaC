@@ -217,6 +217,7 @@ Global options (use these before the subcommand, if any):
 
 ## Setup Terraform with AWS
 
+![diagram](images/diagram.png)
 ### Install Terraform on local machine
  1. Download chocolatey here: `https://chocolatey.org/install`
  2. Run this command in Powershell with admin access:
@@ -237,7 +238,6 @@ Global options (use these before the subcommand, if any):
 
 Note: older versions of terraform will require you to add ID at the end of the variable names. (i.e. instead of AWS_ACCESS_KEY you will need AWS_ACCESS_KEY_ID)
 
-![diagram](images/diagram.png)
 
 ### Create Terraform file
  1. Create a new folder
@@ -249,7 +249,7 @@ Note: older versions of terraform will require you to add ID at the end of the v
 
 ### Setup an EC2 instance with custom VPC, Subnet, IG, RT, SGs
 
-#### Create a custom VPC
+#### Create a VPC
 ```
   resource "aws_vpc" "custom_vpc" {
     cidr_block = "10.0.0.0/16"
@@ -259,7 +259,69 @@ Note: older versions of terraform will require you to add ID at the end of the v
   }
 ```
 
-#### Create a custom Route Table
+#### Create Subnet
+```
+  # Create Subnet 10.0.6.0/24 for public - 10.0.18.0/24 for prvate
+  resource "aws_subnet" "eng130-angel-terraform-subnet" {
+    vpc_id     = aws_vpc.eng130-angel-terraform-vpc.id
+    cidr_block = "10.0.6.0/24"
+    tags = {
+      "Name" = "eng130-angel-terraform-subnet"
+    }
+  }
+```
+
+#### Create a security group
+```
+  # Create Security Group for instance
+  resource "aws_security_group" "eng130-angel-terraform-sg" {
+    name   = "eng130-angel-terraform-sg"
+    vpc_id = aws_vpc.eng130-angel-terraform-vpc.id
+    # Inbound Rules
+
+    # SSH from anywhere
+    ingress {
+      description = "SSH"
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    # HTTP from anywhere
+    ingress {
+      description = "HTTP"
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+    egress {
+      description = "All Outbound Traffic"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    tags = {
+      Name = "eng130-angel-terraform-sg"
+    }
+
+  }
+```
+
+#### Create an Internet Gateway
+```
+  # Create Internet Gateway
+  resource "aws_internet_gateway" "eng130-angel-terraform-ig" {
+    vpc_id = aws_vpc.eng130-angel-terraform-vpc.id
+    tags = {
+      Name = "eng130-angel-terraform-ig"
+    }
+  }
+```
+#### Create a Route Table
 ```
   resource "aws_route_table" "eng130-angel-terraform-rt"{
     vpc_id = aws_vpc.custom_vpc
@@ -271,6 +333,16 @@ Note: older versions of terraform will require you to add ID at the end of the v
     tags = {
       Name = var.tags.name_of_rt
     }
+  }
+```
+
+#### Associate route table and vpc
+```
+
+  # Create RT association
+  resource "aws_main_route_table_association" "eng130-angel-terraform-rta" {
+    vpc_id         = aws_vpc.eng130-angel-terraform-vpc.id
+    route_table_id = aws_route_table.eng130-angel-terraform-rt.id
   }
 ```
 #### Create an EC2 instance
@@ -291,5 +363,3 @@ Note: older versions of terraform will require you to add ID at the end of the v
     }
   }
 ```
-
-#### Create 
