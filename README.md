@@ -214,3 +214,27 @@ Global options (use these before the subcommand, if any):
   -help         Show this help output, or the help for a specified subcommand.
   -version      An alias for the "version" subcommand.
 ```
+
+## Setup Terraform with AWS
+
+### Install Terraform on local machine
+ 1. Download chocolatey here: `https://chocolatey.org/install`
+ 2. Run this command in Powershell with admin access:
+    1. ```Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))```
+    2. This will download terraform on your system
+ 3. On the same terminal, run: `choco install terraform`
+ 4. Check for your version to ensure it is installed correctly
+    1. `terraform --version`
+
+### Place keys in environment variable
+ 1. Press the windows key and search for environment
+ 2. You should see something along the lines of "edit environment vairables"
+ 3. After clicking on that a new window appears and on the bottom right you should see "Environment variables..."
+ 4. Open that
+ 5. In the new window, in the User Variables section add a new variable and call it AWS_ACCESS_KEY
+ 6. In the value provide your access key
+ 7. Repeat from step 5 for your secret key
+
+Note: older versions of terraform will require you to add ID at the end of the variable names. (i.e. instead of AWS_ACCESS_KEY you will need AWS_ACCESS_KEY_ID)
+
+![diagram](images/diagram.png)
