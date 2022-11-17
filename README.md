@@ -238,3 +238,58 @@ Global options (use these before the subcommand, if any):
 Note: older versions of terraform will require you to add ID at the end of the variable names. (i.e. instead of AWS_ACCESS_KEY you will need AWS_ACCESS_KEY_ID)
 
 ![diagram](images/diagram.png)
+
+### Create Terraform file
+ 1. Create a new folder
+ 2. Create a new file called "main.tf"
+ 3. If you are using VSCode it will be useful to download the default terraform plugin so you can see text and keyword highlighting
+ 4. In there you can type any script you want
+    1. Each topic available will be documented in different sections
+
+
+### Setup an EC2 instance with custom VPC, Subnet, IG, RT, SGs
+
+#### Create a custom VPC
+```
+  resource "aws_vpc" "custom_vpc" {
+    cidr_block = "10.0.0.0/16"
+    tags = {
+      Name = "eng130-angel-terraform-vpc"
+    }
+  }
+```
+
+#### Create a custom Route Table
+```
+  resource "aws_route_table" "eng130-angel-terraform-rt"{
+    vpc_id = aws_vpc.custom_vpc
+    route {
+      cidr_block = "0.0.0.0/0"
+      gateway_id = aws_internet_gateway.eng130-angel-terraform-ig.id
+    }
+
+    tags = {
+      Name = var.tags.name_of_rt
+    }
+  }
+```
+#### Create an EC2 instance
+```
+  provider "aws" {
+
+  Which part of AWS we would like to launch resources in
+    region = "eu-west-1"
+
+  }
+  resource "aws_instance" "app_instance"{
+    ami = var.webapp-ami-id# "ami-0b47105e3d7fc023e"
+    instance_type = "t2.micro"
+    key_name = "eng130"
+    associate_public_ip_address = true
+    tags = {
+      Name = "eng130-angel-terraform-app"
+    }
+  }
+```
+
+#### Create 
