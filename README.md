@@ -128,3 +128,47 @@ when in this vi editor, enter:
 `aws_secret_key: my_key`
 cd to /etc/ansible
 `sudo ansible-playbook ec2.yaml --ask-pass --tags create-ec2`
+
+## Infrastructure as Code Terraform Orchestration
+
+### What is Terraform?
+Terraform is an open-source, infrastructure as code, software tool. It allows users to define both on-premises and cloud resources in human-readable configuration files that can be easily versioned, reused, and shared. 
+
+### Benefits of Terraform
+ - Declarative nature. 
+   - A declarative tool allows users to specify the end state and the IaC tools will automatically carry out the necessary steps to achieve the user configuration. It is in contrast to other imperative IaC tools where users need to define the exact steps required to achieve the desired state.
+  
+ - Platform agnostics. 
+   - Most IaC tools like AWS CloudFormation and Azure Resource templates are platform specific. Yet, Terraform allows users to use a single tool to manage infrastructure across platforms with applications using many tools, platforms, and multi-cloud architectures.
+  
+ - Reusable configurations. 
+   - Terraform encourages the creation of reusable configurations where users can use the same configuration to provision multiple environments. Additionally Terraform allows creating reusable components within the configuration files with modules.
+  
+ - Managed state. 
+   - With state files keeping track of all the changes in the environment, all modifications are recorded and any unnecessary changes will not occur unless explicitly specified by the user. It can be further automated to detect any config drifts and automatically fix the drift to ensure the desired state is met at all times.
+  
+ - Easy rollsbacks. 
+   - As all configurations are version controlled and the state is managed, users can easily and safely roll back most infrastructure configurations without complicated reconfigurations.
+  
+ - Integration to CI/CD. 
+   - While IaC can be integrated into any pipeline, Terraform provides a simple three-step workflow that can be easily integrated into any CI/CD pipeline. It helps to completely automate the infrastructure management
+
+![terraform_structure](images/terraform.png)
+### Use cases
+ - Remote encrypted state storage
+ - Direct CI/CD integrations
+ - Fully remote and SOC2 compliant collaborative environment
+ - Version Controls
+ - Private Registry to store module and Policy as Code support to configure security and compliance policies
+ - Complete auditable environment.
+ - Cost estimations before applying infrastructure changes in supported providers.
+
+![best_practices_terraform](images/terraform-best-practicies.png)
+
+### Who uses Terraform
+
+1842 companies reportedly use Terraform in their tech stacks, including Uber, Udemy, and Instacart, Slack, Twitch.
+
+### Who owns Terraform
+HashiCorp is a software company with a freemium business model based in San Francisco, California. HashiCorp provides open-source tools and commercial products that enable developers, operators and security professionals to provision, secure, run and connect cloud-computing infrastructure.
+![hashi](images/hashicorp_logo.svg)
