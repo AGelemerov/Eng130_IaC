@@ -363,3 +363,6 @@ Note: older versions of terraform will require you to add ID at the end of the v
     }
   }
 ```
+
+## IaC with Controller on AWS
+![iac-ansible-terraform](images/IaC_ansible_terraform.png)

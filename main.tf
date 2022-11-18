@@ -79,8 +79,9 @@ resource "aws_route_table" "eng130-angel-terraform-rt" {
 }
 
 # Create RT association
-resource "aws_main_route_table_association" "eng130-angel-terraform-rta" {
-  vpc_id         = aws_vpc.eng130-angel-terraform-vpc.id
+resource "aws_route_table_association" "eng130-angel-terraform-rta" {
+  # vpc_id         = aws_vpc.eng130-angel-terraform-vpc.id
+  subnet_id      = aws_subnet.eng130-angel-terraform-subnet.id
   route_table_id = aws_route_table.eng130-angel-terraform-rt.id
 }
 
