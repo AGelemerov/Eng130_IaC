@@ -16,7 +16,6 @@ resource "aws_vpc" "eng130-angel-terraform-vpc" {
 resource "aws_subnet" "eng130-angel-terraform-subnet" {
   vpc_id     = aws_vpc.eng130-angel-terraform-vpc.id
   cidr_block = "10.0.6.0/24"
-  availability_zone = "eu-west-1a"
   tags = {
     "Name" = "eng130-angel-terraform-subnet"
   }
@@ -87,6 +86,20 @@ resource "aws_route_table_association" "eng130-angel-terraform-rta" {
   route_table_id = aws_route_table.eng130-angel-terraform-rt.id
 }
 
+resource "aws_lb" "eng130-angel-terraform-lb" {
+  name               = "eng130-angel-terraform-lb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.eng130-angel-terraform-sg.id]
+  subnets            = [aws_subnet.eng130-angel-terraform-subnet.id]
+
+  enable_deletion_protection = false
+
+  tags = {
+    Environment = "production"
+    Name = "eng130-angel-terraform-lb"
+  }
+}
 # Create app instance
 resource "aws_instance" "eng130-angel-terraform-controller" {
   ami                         = var.webapp-ami-id # "ami-0b47105e3d7fc023e"
@@ -115,16 +128,18 @@ resource "aws_launch_template" "eng130-angel-terraform-lt" {
   }
   network_interfaces {
     associate_public_ip_address = true
-    security_groups = aws_autoscaling_group.eng130-angel-terraform-asg
   }
   placement {
     availability_zone = "eu-west-1"
   }
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "eng130-angel-terraform-app"
+    }
+  }
   # vpc_security_group_ids = [aws_security_group.eng130-angel-terraform-sg.id]
   user_data = filebase64("${path.module}/provision.sh")
-  tags = {
-    "Name" = "eng130-angel-terraform-app"
-  }
 }
 
 resource "aws_autoscaling_group" "eng130-angel-terraform-asg" {
