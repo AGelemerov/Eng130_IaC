@@ -366,3 +366,13 @@ Note: older versions of terraform will require you to add ID at the end of the v
 
 ## IaC with Controller on AWS
 ![iac-ansible-terraform](images/IaC_ansible_terraform.png)
+
+
+
+upload the yaml file
+upload the host file
+upload provision file
+delete eng99 folder
+check provision file for location
+
+alter hosts file to have correct IPs
